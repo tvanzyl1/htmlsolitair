@@ -1,46 +1,79 @@
-# HTML Solitaire Agent Pack
+# Velvet Solitaire
 
-This agent pack is for building a **browser-based HTML Solitaire card game** using the attached generic style template as the source of truth for polish, UX feel, and presentation. It adapts that playful premium browser-game style to a **single-draw Klondike Solitaire** experience with support for:
+Velvet Solitaire is a polished browser-based single-draw Klondike Solitaire game built with plain HTML, CSS, and JavaScript for static hosting.
 
-- **Desktop:** mouse input
-- **Tablet / Phone:** touch input
-- **Tech stack:** HTML, CSS, JavaScript
-- **Hosting target:** static hosting such as GitHub Pages
-- **Scope:** polished single-game experience, easy to extend later
+## Features
 
-Use these files in order. Each file is written as an instruction brief for an agentic coding workflow.
-
-## Recommended run order
-
-1. `01_PROJECT_BRIEF.md`
-2. `02_TECH_ARCHITECTURE.md`
-3. `03_GAME_RULES_AND_STATE.md`
-4. `04_INPUT_AND_INTERACTIONS.md`
-5. `05_UI_VISUAL_STYLE.md`
-6. `06_ANIMATION_AUDIO_AND_FEEDBACK.md`
-7. `07_QA_BALANCING_AND_DEPLOY.md`
-
-## High-level game concept
-
-Build a polished **Klondike Solitaire** game with:
-
-- single-draw stock behaviour
-- standard tableau / waste / foundation layout
+- mouse and touch-friendly play
 - drag-and-drop card movement
-- tap / click support for quick interactions
+- tap and click smart moves
+- double-click quick-send to foundations when safe
+- stock draw with waste recycling
+- move counter and timer
+- start and win overlays
 - responsive layout for desktop, tablet, and phone
-- premium-feeling browser presentation inspired by the supplied generic style template
 
-## Important style instruction
+## Controls
 
-Preserve the spirit of the attached generic style template:
-- playful arcade polish
-- strong clarity and readability
-- rounded modern UI
-- polished transitions and feedback
-- premium browser-game feel
-- mobile-friendly presentation
+### Desktop
 
-Do **not** turn this into a gritty casino simulator or a bland corporate card app. It should still feel lively and satisfying, even though the game is slower and more thoughtful than an action title.
+- Click the stock pile to draw one card.
+- Drag cards or valid tableau runs to a legal destination.
+- Click a face-up card to select it, then click a highlighted pile to move it.
+- Double-click a card to send it to a foundation when safe and legal.
+- Press `Esc` to clear the current selection.
+- Press `N` to start a new game.
 
-This pack was adapted from the attached generic style template. See the source style file for the governing presentation DNA. fileciteturn0file0
+### Mobile and Tablet
+
+- Tap the stock pile to draw one card.
+- Drag cards with your finger.
+- Tap a movable card for a smart move or to select it.
+- Tap a highlighted destination pile to complete the move.
+
+## Rules Summary
+
+- standard 52-card deck
+- 7 tableau columns
+- 4 foundations
+- 1 stock and 1 waste pile
+- single-draw stock behavior
+- tableau builds down by alternating color
+- foundations build up by suit from Ace to King
+- only Kings can move to an empty tableau column
+- newly exposed tableau cards flip face-up automatically
+- waste recycles back to stock when stock is empty
+
+## Run Locally
+
+No build step is required.
+
+1. Open [index.html](/c:/Source/htmlsolitair/index.html) directly in a browser, or
+2. Serve the folder with a simple static server.
+
+Example:
+
+```powershell
+python -m http.server 8000
+```
+
+Then open `http://localhost:8000`.
+
+## Deploy to GitHub Pages
+
+1. Push this repository to GitHub.
+2. In repository settings, enable GitHub Pages.
+3. Choose the branch that contains `index.html`.
+4. Save settings and open the published site URL.
+
+The app uses only relative local assets, so it is suitable for static hosting.
+
+## Extension Ideas
+
+- undo using the recorded move history
+- hints from the rule engine
+- score modes and vegas rules
+- settings panel for sound and rule toggles
+- daily challenge deals
+- alternate table themes and card backs
+- auto-complete once all hidden cards are revealed

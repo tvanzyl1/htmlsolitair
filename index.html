@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>Velvet Solitaire</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@600;700&family=Manrope:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar glass-panel">
+      <div class="brand">
+        <p class="eyebrow">Single Draw</p>
+        <h1>Velvet Solitaire</h1>
+        <p class="subtitle">A polished Klondike table for mouse and touch play.</p>
+      </div>
+
+      <div class="hud">
+        <div class="stat">
+          <span class="stat-label">Moves</span>
+          <strong id="movesValue">0</strong>
+        </div>
+        <div class="stat">
+          <span class="stat-label">Time</span>
+          <strong id="timeValue">00:00</strong>
+        </div>
+        <div class="hud-actions">
+          <button id="soundButton" class="ui-button secondary" type="button" aria-pressed="false">Sound Off</button>
+          <button id="restartButton" class="ui-button secondary" type="button">Restart</button>
+          <button id="newGameButton" class="ui-button" type="button">New Game</button>
+        </div>
+      </div>
+    </header>
+
+    <main class="table-wrap">
+      <section class="table glass-panel" aria-label="Solitaire table">
+        <div class="top-row">
+          <div class="left-group">
+            <div id="stockPile" class="pile pile-stock" data-pile-id="stock" data-pile-type="stock" aria-label="Stock pile"></div>
+            <div id="wastePile" class="pile pile-waste" data-pile-id="waste" data-pile-type="waste" aria-label="Waste pile"></div>
+          </div>
+
+          <div id="foundationRow" class="foundation-row" aria-label="Foundation piles"></div>
+        </div>
+
+        <div id="tableauRow" class="tableau-row" aria-label="Tableau piles"></div>
+      </section>
+    </main>
+
+    <div class="bottom-bar glass-panel">
+      <p id="messageText" class="message">Tap stock for next card. Drag cards or tap for a smart move.</p>
+      <button id="autoMoveButton" class="ui-button tertiary" type="button">Auto Place</button>
+    </div>
+  </div>
+
+  <div id="dragLayer" class="drag-layer" aria-hidden="true"></div>
+
+  <div id="startOverlay" class="overlay visible" role="dialog" aria-modal="true" aria-labelledby="startTitle">
+    <div class="overlay-card glass-panel">
+      <p class="eyebrow">Browser Card Table</p>
+      <h2 id="startTitle">Velvet Solitaire</h2>
+      <p class="overlay-copy">Single-draw Klondike with responsive drag-and-drop, smart tap moves, and a warm polished table feel.</p>
+      <div class="overlay-actions">
+        <button id="startGameButton" class="ui-button" type="button">Start Game</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="winOverlay" class="overlay" role="dialog" aria-modal="true" aria-labelledby="winTitle" aria-hidden="true">
+    <div class="overlay-card glass-panel win-card">
+      <p class="eyebrow">Table Cleared</p>
+      <h2 id="winTitle">You Won!</h2>
+      <p class="overlay-copy" id="winSummary">A tidy finish. Ready for another round?</p>
+      <div class="overlay-actions">
+        <button id="playAgainButton" class="ui-button" type="button">Play Again</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
