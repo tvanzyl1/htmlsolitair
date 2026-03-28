@@ -1,10 +1,11 @@
 # Velvet Solitaire
 
-Velvet Solitaire is a polished browser-based single-draw Klondike Solitaire game built with plain HTML, CSS, and JavaScript for static hosting.
+Velvet Solitaire is a polished browser-based Klondike Solitaire game built with plain HTML, CSS, and JavaScript for static hosting.
 
 ## Features
 
 - mouse and touch-friendly play
+- new game mode picker for Draw 1 or Draw 3
 - drag-and-drop card movement
 - tap and click smart moves
 - double-click quick-send to foundations when safe
@@ -17,7 +18,8 @@ Velvet Solitaire is a polished browser-based single-draw Klondike Solitaire game
 
 ### Desktop
 
-- Click the stock pile to draw one card.
+- Choose Draw 1 or Draw 3 when starting a new game.
+- Click the stock pile to draw cards based on the selected mode.
 - Drag cards or valid tableau runs to a legal destination.
 - Click a face-up card to select it, then click a highlighted pile to move it.
 - Double-click a card to send it to a foundation when safe and legal.
@@ -26,7 +28,8 @@ Velvet Solitaire is a polished browser-based single-draw Klondike Solitaire game
 
 ### Mobile and Tablet
 
-- Tap the stock pile to draw one card.
+- Choose Draw 1 or Draw 3 when starting a new game.
+- Tap the stock pile to draw cards based on the selected mode.
 - Drag cards with your finger.
 - Tap a movable card for a smart move or to select it.
 - Tap a highlighted destination pile to complete the move.
@@ -37,7 +40,7 @@ Velvet Solitaire is a polished browser-based single-draw Klondike Solitaire game
 - 7 tableau columns
 - 4 foundations
 - 1 stock and 1 waste pile
-- single-draw stock behavior
+- selectable Draw 1 or Draw 3 stock behavior
 - tableau builds down by alternating color
 - foundations build up by suit from Ace to King
 - only Kings can move to an empty tableau column

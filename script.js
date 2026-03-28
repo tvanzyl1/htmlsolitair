@@ -29,7 +29,8 @@ const state = {
   gameStarted: false,
   gameWon: false,
   interactionLocked: false,
-  soundEnabled: false
+  soundEnabled: false,
+  drawCount: 1
 };
 
 const refs = {
@@ -45,8 +46,10 @@ const refs = {
   restartButton: document.getElementById("restartButton"),
   newGameButton: document.getElementById("newGameButton"),
   autoMoveButton: document.getElementById("autoMoveButton"),
+  modeEyebrow: document.getElementById("modeEyebrow"),
   startOverlay: document.getElementById("startOverlay"),
-  startGameButton: document.getElementById("startGameButton"),
+  startDrawOneButton: document.getElementById("startDrawOneButton"),
+  startDrawThreeButton: document.getElementById("startDrawThreeButton"),
   winOverlay: document.getElementById("winOverlay"),
   winSummary: document.getElementById("winSummary"),
   playAgainButton: document.getElementById("playAgainButton")
@@ -55,7 +58,8 @@ const refs = {
 function init() {
   buildBoard();
   bindEvents();
-  startFreshGame();
+  updateModeDisplay();
+  startFreshGame(false);
   showOverlay(refs.startOverlay, true);
 }
 
@@ -98,12 +102,13 @@ function bindEvents() {
   refs.wastePile.addEventListener("dblclick", onDoubleClick);
   refs.tableauRow.addEventListener("dblclick", onDoubleClick);
   refs.foundationRow.addEventListener("dblclick", onDoubleClick);
-  refs.startGameButton.addEventListener("click", onStartGame);
-  refs.newGameButton.addEventListener("click", startFreshGame);
+  refs.startDrawOneButton.addEventListener("click", () => beginNewGameWithMode(1));
+  refs.startDrawThreeButton.addEventListener("click", () => beginNewGameWithMode(3));
+  refs.newGameButton.addEventListener("click", openModePicker);
   refs.restartButton.addEventListener("click", restartCurrentGame);
   refs.playAgainButton.addEventListener("click", () => {
     showOverlay(refs.winOverlay, false);
-    startFreshGame();
+    openModePicker();
   });
   refs.soundButton.addEventListener("click", toggleSound);
   refs.autoMoveButton.addEventListener("click", autoPlaceAnyCard);
@@ -113,19 +118,28 @@ function bindEvents() {
   document.addEventListener("keydown", onKeyDown);
 }
 
-function onStartGame() {
+function openModePicker() {
+  state.selectedMove = null;
+  cancelDrag();
+  showOverlay(refs.winOverlay, false);
+  showOverlay(refs.startOverlay, true);
+  setMessage("Choose draw 1 or draw 3 for the next deal.");
+}
+
+function beginNewGameWithMode(drawCount) {
+  state.drawCount = drawCount;
+  updateModeDisplay();
   showOverlay(refs.startOverlay, false);
-  state.gameStarted = true;
-  ensureTimer();
-  setMessage("Tap stock for next card. Drag cards or tap for a smart move.");
+  startFreshGame(true);
+  setMessage(`${getDrawModeLabel()} game ready. Tap stock for the next draw.`);
 }
 
 function restartCurrentGame() {
-  startFreshGame();
-  setMessage("Fresh start. Same rules, new shuffle.");
+  startFreshGame(true);
+  setMessage(`Fresh start. ${getDrawModeLabel()} rules, new shuffle.`);
 }
 
-function startFreshGame() {
+function startFreshGame(startActive = false) {
   clearTimer();
   state.selectedMove = null;
   state.drag = null;
@@ -134,7 +148,7 @@ function startFreshGame() {
   state.timerSeconds = 0;
   state.gameWon = false;
   state.interactionLocked = false;
-  state.gameStarted = !refs.startOverlay.classList.contains("visible");
+  state.gameStarted = startActive;
   resetPiles();
 
   const deck = createDeck();
@@ -147,7 +161,7 @@ function startFreshGame() {
   if (state.gameStarted) {
     ensureTimer();
   }
-  setMessage("New deal ready. Build up foundations from Ace to King.");
+  setMessage(`New ${getDrawModeLabel().toLowerCase()} deal ready. Build up foundations from Ace to King.`);
 }
 
 function resetPiles() {
@@ -284,14 +298,19 @@ function onStockClick() {
   state.selectedMove = null;
 
   if (state.piles.stock.cards.length > 0) {
-    const cardId = state.piles.stock.cards.pop();
-    state.cards[cardId].faceUp = true;
-    state.piles.waste.cards.push(cardId);
-    recordMove("draw", "stock", "waste", [cardId], null, false);
+    const drawnCardIds = [];
+    const drawLimit = Math.min(state.drawCount, state.piles.stock.cards.length);
+    for (let index = 0; index < drawLimit; index += 1) {
+      const cardId = state.piles.stock.cards.pop();
+      state.cards[cardId].faceUp = true;
+      state.piles.waste.cards.push(cardId);
+      drawnCardIds.push(cardId);
+    }
+    recordMove("draw", "stock", "waste", drawnCardIds, null, false);
     incrementMoveCount();
     maybeStartGame();
     render();
-    setMessage("Card drawn to waste.");
+    setMessage(`${drawnCardIds.length} ${drawnCardIds.length === 1 ? "card" : "cards"} drawn to waste.`);
     return;
   }
 
@@ -815,6 +834,14 @@ function toggleSound() {
   refs.soundButton.textContent = state.soundEnabled ? "Sound On" : "Sound Off";
   refs.soundButton.setAttribute("aria-pressed", String(state.soundEnabled));
   setMessage(state.soundEnabled ? "Sound enabled." : "Sound muted.");
+}
+
+function updateModeDisplay() {
+  refs.modeEyebrow.textContent = getDrawModeLabel();
+}
+
+function getDrawModeLabel() {
+  return state.drawCount === 3 ? "Draw 3" : "Draw 1";
 }
 
 function playFeedback(type) {
