@@ -280,13 +280,14 @@ button {
     0 10px 20px rgba(0, 0, 0, 0.18),
     inset 0 1px 0 rgba(255, 255, 255, 0.5);
   display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  align-items: center;
+  justify-content: center;
   padding: 0.45rem;
   cursor: grab;
   touch-action: none;
   transition: transform 180ms ease, box-shadow 180ms ease;
   will-change: transform;
+  overflow: hidden;
 }
 
 .card.red {
@@ -350,19 +351,27 @@ button {
 }
 
 .card-corner {
+  position: absolute;
   display: flex;
   flex-direction: column;
   gap: 0.1rem;
+  line-height: 1;
+}
+
+.card-corner.top {
+  top: 0.45rem;
+  left: 0.45rem;
 }
 
 .card-corner.bottom {
-  align-self: flex-end;
+  right: 0.45rem;
+  bottom: 0.45rem;
   transform: rotate(180deg);
 }
 
 .card-center {
-  align-self: center;
   font-size: clamp(1.8rem, 3vw, 2.4rem);
+  line-height: 1;
 }
 
 .pile-label {
@@ -373,6 +382,11 @@ button {
   color: rgba(255, 255, 255, 0.6);
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.pile-foundation .pile-label,
+.pile-tableau .pile-label {
+  display: none;
 }
 
 .bottom-bar {
